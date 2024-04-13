@@ -1,0 +1,47 @@
+import wollok.game.*
+import auto.*
+
+program miPrimerWollokGame {
+	game.width(14)
+	game.height(8)
+	
+	game.boardGround("empedrado.jpg")
+
+	game.addVisual(autoRojo)
+	game.addVisual(autoAzul)
+	game.addVisual(autoVerde)	
+	game.addVisual(paredUno)
+	game.addVisual(paredDos)
+
+	keyboard.up().onPressDo{autoRojo.subir()}
+	keyboard.down().onPressDo{autoRojo.bajar()}
+	keyboard.right().onPressDo{autoRojo.avanzar()}
+	keyboard.left().onPressDo{autoRojo.retroceder()}
+	
+	keyboard.w().onPressDo{autoAzul.subir()}
+	keyboard.s().onPressDo{autoAzul.bajar()}
+	keyboard.d().onPressDo{autoAzul.avanzar()}
+	keyboard.a().onPressDo{autoAzul.retroceder()}
+	
+	keyboard.i().onPressDo{autoVerde.subir()}
+	keyboard.j().onPressDo{autoVerde.bajar()}
+	keyboard.k().onPressDo{autoVerde.avanzar()}
+	keyboard.l().onPressDo{autoVerde.retroceder()}
+	
+	game.whenCollideDo(autoRojo, { obstaculo => 
+		game.say(autoRojo, autoRojo.choque())
+	} )
+	game.whenCollideDo(autoAzul, { obstaculo => 
+		game.say(autoAzul, autoAzul.choque())
+	} )
+	game.whenCollideDo(autoVerde, { obstaculo => 
+		game.say(autoVerde, autoVerde.choque())
+	} )
+	
+	game.onTick(3000, "la pared uno se mueve", { paredUno.moverse() })
+	keyboard.r().onPressDo { game.removeTickEvent("la pared uno se mueve") }
+	game.onTick(1500, "la pared dos se mueve", { paredDos.moverse() })
+	keyboard.f().onPressDo { game.removeTickEvent("la pared dos se mueve") }
+
+	game.start()
+}
